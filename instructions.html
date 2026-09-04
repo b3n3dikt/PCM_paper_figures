@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PCM Paper Figures — Instructions</title>
+<style>
+  :root{
+    --bg:#ffffff; --bg-alt:#f6f7f9; --ink:#1a1d23; --ink-soft:#565d6b;
+    --line:#e2e5ea; --accent:#2563eb; --accent-soft:#eaf0fe;
+    --warn-bg:#fff7e6; --warn-border:#e8a23d; --warn-ink:#7a4b06;
+    --bad-bg:#fdecec; --bad-border:#d94b4b; --bad-ink:#8a1f1f;
+    --ok-bg:#eafaf0; --ok-border:#2fa860; --ok-ink:#166534;
+    --code-bg:#0f1115; --code-ink:#e6e6e6;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 28px 120px}
+  header.hero{padding:40px 0 28px;border-bottom:1px solid var(--line);margin-bottom:36px}
+  header.hero h1{font-size:2rem;margin:0 0 8px;letter-spacing:-0.01em}
+  header.hero p{color:var(--ink-soft);margin:0;font-size:1.05rem}
+  nav.toc{background:var(--bg-alt);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:0 0 40px}
+  nav.toc h2{font-size:0.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:0 0 10px}
+  nav.toc ol{margin:0;padding-left:1.2em;columns:2;gap:24px}
+  nav.toc li{margin-bottom:6px;break-inside:avoid}
+  nav.toc a{color:var(--accent);text-decoration:none}
+  nav.toc a:hover{text-decoration:underline}
+  section{margin:0 0 48px}
+  h2{font-size:1.4rem;margin:0 0 14px;padding-top:8px;border-top:1px solid var(--line);padding-top:28px}
+  section:first-of-type h2, h2.no-rule{border-top:none;padding-top:0}
+  h3{font-size:1.05rem;margin:26px 0 10px}
+  p{margin:0 0 14px}
+  code{font-family:var(--mono);background:var(--bg-alt);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:0.88em}
+  pre{background:var(--code-bg);color:var(--code-ink);border-radius:8px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:0.86rem;line-height:1.5;margin:10px 0 18px}
+  pre code{background:none;border:none;padding:0;color:inherit}
+  table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:0.92rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--ink-soft);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:.03em}
+  tr:last-child td{border-bottom:none}
+  .callout{border-radius:10px;padding:16px 18px;margin:14px 0 20px;border:1px solid}
+  .callout p:last-child{margin-bottom:0}
+  .callout .label{font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;display:block}
+  .warn{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-ink)}
+  .bad{background:var(--bad-bg);border-color:var(--bad-border);color:var(--bad-ink)}
+  .ok{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-ink)}
+  .fig-card{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:16px 0}
+  .fig-card h3{margin-top:0}
+  .kv{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;margin:10px 0;font-size:0.92rem}
+  .kv dt{color:var(--ink-soft);font-weight:600}
+  .kv dd{margin:0}
+  .badge{display:inline-block;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:20px;background:var(--accent-soft);color:var(--accent);margin-left:8px;vertical-align:middle}
+  .badge.python{background:#e8f3ec;color:#1c7a44}
+  .badge.matlab{background:#fdeeda;color:#a15b00}
+  footer{color:var(--ink-soft);font-size:0.85rem;border-top:1px solid var(--line);padding-top:20px;margin-top:60px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>PCM Paper Figures</h1>
+  <p>Precision Confidence Mapping — action mode network (AMN) targeting. Data, code, and instructions to regenerate Figure&nbsp;4, Table&nbsp;1, Figure&nbsp;5C/D, Supplementary Figure&nbsp;1, Supplementary Table&nbsp;1, Supplementary Figure&nbsp;2, and every other statistic reported in the paper.</p>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#quickstart">Quick start</a></li>
+    <li><a href="#structure">Package structure</a></li>
+    <li><a href="#data-dict">Data dictionary</a></li>
+    <li><a href="#figures">Figures &amp; tables, one by one</a></li>
+  </ol>
+</nav>
+
+<section id="quickstart">
+  <h2 class="no-rule">Quick start</h2>
+  <pre><code>cd PCM_paper_figures/code
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate   # optional but recommended
+pip install -r requirements.txt
+python3 run_all.py</code></pre>
+  <p>That runs all nine scripts in order and writes every figure/table into <code>outputs/</code>, mirroring the folder layout described below. Runtime is well under a minute — nothing here needs a cluster. Requires Python ≥3.9; tested with pandas, numpy, scipy, and matplotlib per <code>requirements.txt</code>.</p>
+  <p>The <code>data/</code> folder ships pre-built — you don't need to run <code>code/prep_data.py</code> yourself; it's included only in case you ever need to re-derive the data files.</p>
+</section>
+
+<section id="structure">
+  <h2>Package structure</h2>
+  <pre><code>PCM_paper_figures/
+  instructions.html / instructions.pdf   this document
+  data/
+    combined_metrics/
+      combined_metrics_used_in_paper.csv   combined metrics table
+    figure5_conditions/
+      TM_5min.csv, TM_70min.csv,
+      PCM_5min_thr0.99.csv, PCM_70min_thr0.99.csv
+    suppfig3_nmi/
+      standardTM_within_between_stats.csv,
+      pcm_thr0.99_matched_duration_pairs.csv
+  code/
+    common.py            shared I/O, stats, and plotting helpers
+    prep_data.py          one-time data-prep step (already run; see data/)
+    table1_stats.py        Table 1
+    supptable1_stats.py    Supplementary Table 1
+    figure4_heatmaps.py    Figure 4, panels A + B
+    figure4_pr_recall.py   Figure 4, panel C
+    suppfig1_pr_recall.py  Supplementary Figure 1 (heatmap + PR-recall x4 networks)
+    suppfig2_heatmaps.py   Supplementary Figure 2
+    figure5_panels_cd.py   Figure 5, panels C + D
+    other_stats_threshold_gain.py    thresholding-gain-by-duration stat
+    other_stats_suppfig3_nmi.py      Supp Fig 3 (whole-map NMI reliability)
+    run_all.py             runs everything above, in order
+    requirements.txt
+  outputs/                what run_all.py produces (shipped pre-populated)</code></pre>
+</section>
+
+<section id="data-dict">
+  <h2>Data dictionary</h2>
+
+  <h3><code>data/combined_metrics/combined_metrics_used_in_paper.csv</code></h3>
+  <p>Long-format table, one row per (subject × threshold × metric × network × exploratory-minutes) combination.</p>
+  <table>
+    <tr><th>Column</th><th>Meaning</th></tr>
+    <tr><td><code>Subject</code></td><td>One of <code>PFM3T7T01</code>–<code>PFM3T7T04</code> (N=4).</td></tr>
+    <tr><td><code>Threshold</code></td><td>PCM confidence threshold, 0.0–0.99. Vertices below threshold are excluded from that map before computing metrics.</td></tr>
+    <tr><td><code>Metric</code></td><td>One of <code>PPV_cort</code>, <code>TPR_cort</code>, <code>FPR_cort</code>, <code>TNR_cort</code>, <code>FNR_cort</code>, <code>DC_cort</code> (Dice), <code>MIn_cort</code> (normalized mutual information), plus raw counts <code>TP_cort</code>/<code>FP_cort</code>/<code>FN_cort</code>.</td></tr>
+    <tr><td><code>Network</code></td><td>One of the 15 canonical networks: <code>AMN</code>, Aud, DAN, DMN, FP, MTL, PMN, PON, SCAN, SMd, SMl, Sal, Tpole, VAN, Vis.</td></tr>
+    <tr><td><code>ExpMin</code></td><td>Length (minutes) of the exploratory data compared against the reference: 5, 10, 15, …, 70.</td></tr>
+    <tr><td><code>RefMin</code></td><td>Length (minutes) of the reference data. Always <code>70</code> (the fixed ground-truth reference used everywhere in the paper).</td></tr>
+    <tr><td><code>Value</code></td><td>The metric's value for that row.</td></tr>
+  </table>
+
+  <h3><code>data/figure5_conditions/*.csv</code></h3>
+  <p>Four files — <code>TM_5min.csv</code>, <code>TM_70min.csv</code>, <code>PCM_5min_thr0.99.csv</code>, <code>PCM_70min_thr0.99.csv</code> — used only for Figure 5C/D. <strong>These have a completely different design from the combined metrics file above</strong>: each row compares one subject's exploratory-half map against one subject's reference-half map, both at the <em>same</em> fixed duration (5 or 70 minutes) — this is what lets Figure 5 measure within- vs. between-subject agreement.</p>
+  <table>
+    <tr><th>Column</th><th>Meaning</th></tr>
+    <tr><td><code>Subject</code></td><td>Always <code>allsubs</code> — a placeholder, not meaningful here.</td></tr>
+    <tr><td><code>SubjIndex_Exp</code>, <code>SubjIndex_Ref</code></td><td><strong>Subject index 1–4</strong> for the exploratory and reference map respectively — <em>not</em> minutes, despite these columns being called <code>ExpMin</code>/<code>RefMin</code> in the original raw files. Renamed here specifically to avoid that trap.</td></tr>
+    <tr><td><code>SubjectID_Exp</code>, <code>SubjectID_Ref</code></td><td>Added in this package: the actual <code>PFM3T7T0X</code> ID for each index, so you don't have to cross-reference a separate key.</td></tr>
+    <tr><td><code>Threshold</code>, <code>Metric</code>, <code>Network</code>, <code>Value</code></td><td>Same meaning as the combined metrics file.</td></tr>
+  </table>
+  <p>Diagonal rows (<code>SubjIndex_Exp == SubjIndex_Ref</code>) are <strong>within-subject</strong> comparisons; off-diagonal rows are <strong>between-subject</strong> comparisons (averaged over the 3 other subjects per subject, per the manuscript's Methods).</p>
+
+  <h3><code>data/suppfig3_nmi/*.csv</code></h3>
+  <p>Two files, used only by <code>other_stats_suppfig3_nmi.py</code>. <strong>pcm_thr0.99_matched_duration_pairs.csv</strong>: all 4×4 subject-pair whole-map NMI (<code>MIn_cort</code>) comparisons at matched duration (both sides 5 or both sides 70 minutes, PCM confidence maps thresholded at 0.99) — same within/between-subject logic as the Figure 5 condition files above (diagonal = within-subject, off-diagonal = between-subject). <strong>standardTM_within_between_stats.csv</strong>: the same within/between comparison for genuine Standard Template Matching, already summarized to mean/SD/paired-t (per-subject-pair values weren't available for this method, only its finished statistics).</p>
+</section>
+
+<section id="figures">
+  <h2>Figures &amp; tables, one by one</h2>
+
+  <div class="fig-card">
+    <h3>Table 1</h3>
+    <p>AMN targeting metrics (PPV, FPR, TNR, FNR, TPR) at 5/25/70 minutes, threshold 0 vs. 0.99, paired t-tests across N=4 subjects.</p>
+    <div class="kv">
+      <dt>Data</dt><dd><code>data/combined_metrics/combined_metrics_used_in_paper.csv</code></dd>
+      <dt>Script</dt><dd><code>code/table1_stats.py</code></dd>
+      <dt>Run</dt><dd><code>python3 table1_stats.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/table1/summary_AMN.csv</code>, <code>outputs/table1/stats_AMN.csv</code></dd>
+    </div>
+    <p>Note: a data-labeling bug in an earlier version of this stats step mislabeled every row's <code>Network</code> column <code>"WB"</code> whenever <code>MIn_cort</code> was included in the same run — cosmetic only, doesn't affect any numeric value; fixed so each row is labeled by its own metric.</p>
+  </div>
+
+  <div class="fig-card">
+    <h3>Supplementary Table 1</h3>
+    <p>Same design as Table 1, for DMN, FP (called FPN in the paper), SCAN, and Sal (called SAL in the paper) — PPV and TPR only — plus a mean-across-all-15-networks row.</p>
+    <div class="kv">
+      <dt>Script</dt><dd><code>code/supptable1_stats.py</code></dd>
+      <dt>Run</dt><dd><code>python3 supptable1_stats.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/supptable1/stats_{DMN,FP,SCAN,Sal}.csv</code>, <code>outputs/supptable1/stats_All15Networks_mean.csv</code></dd>
+    </div>
+  </div>
+
+  <div class="fig-card">
+    <h3>Figure 4</h3>
+    <p><strong>Panels A+B</strong>: AMN PPV heatmap (A) and TNR/FPR/FNR/TPR heatmaps (B), threshold (y) × exploratory data length (x), averaged across subjects; each panel's colorbar auto-scales to its own data range, matching the published figures. <strong>Panel C</strong>: precision (PPV) vs. recall (TPR) for AMN, one line per exploratory data length (5, 25, and 70 minutes), points colored by confidence threshold, with a reference line at precision = 0.6.</p>
+    <div class="kv">
+      <dt>Scripts</dt><dd><code>code/figure4_heatmaps.py</code> (A+B), <code>code/figure4_pr_recall.py</code> (C)</dd>
+      <dt>Run</dt><dd><code>python3 figure4_heatmaps.py &amp;&amp; python3 figure4_pr_recall.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/figure4/Figure4A_PPV_heatmap_AMN.png</code>, <code>Figure4B_*_heatmap_AMN.png</code> (×4), <code>Figure4C_PR_recall_AMN.png</code></dd>
+    </div>
+  </div>
+
+  <div class="fig-card">
+    <h3>Supplementary Figure 1</h3>
+    <p>Same PPV-heatmap + precision-recall analysis as Figure 4A/C (same 5/25/70-minute lines), repeated for the four clinically-relevant networks: FP (FPN), DMN, SCAN, Sal (Salience).</p>
+    <div class="kv">
+      <dt>Script</dt><dd><code>code/suppfig1_pr_recall.py</code></dd>
+      <dt>Run</dt><dd><code>python3 suppfig1_pr_recall.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/suppfig1/SuppFig1_PPV_heatmap_&lt;net&gt;.png</code>, <code>SuppFig1_PR_recall_&lt;net&gt;.png</code> (×4 networks)</dd>
+    </div>
+    <p>The published figure also shows representative thresholded/unthresholded brain-surface maps per network. This package doesn't regenerate those (no surface-rendering tools are included here).</p>
+  </div>
+
+  <div class="fig-card">
+    <h3>Supplementary Figure 2</h3>
+    <p>Same design as Figure 4, averaged across all 15 canonical networks instead of AMN alone, plus Panel C: whole-map NMI and Dice coefficient heatmaps.</p>
+    <div class="kv">
+      <dt>Script</dt><dd><code>code/suppfig2_heatmaps.py</code></dd>
+      <dt>Run</dt><dd><code>python3 suppfig2_heatmaps.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/suppfig2/SuppFig2A_PPV_heatmap_All15Networks.png</code>, <code>SuppFig2B_*.png</code> (×4), <code>SuppFig2C_NMI_heatmap.png</code>, <code>SuppFig2C_Dice_heatmap_All15Networks.png</code></dd>
+    </div>
+  </div>
+
+  <div class="fig-card">
+    <h3>Figure 5, panels C+D</h3>
+    <p><strong>Panel C</strong>: within- vs. between-subject AMN PPV, TM and PCM(thr=0.99), 5 and 70 minutes. <strong>Panel D</strong>: subject-specificity separation (within minus mean-between), same four conditions, paired lines TM→PCM.</p>
+    <div class="kv">
+      <dt>Data</dt><dd><code>data/figure5_conditions/*.csv</code></dd>
+      <dt>Script</dt><dd><code>code/figure5_panels_cd.py</code></dd>
+      <dt>Run</dt><dd><code>python3 figure5_panels_cd.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/figure5/Figure5C_within_between_PPV.png</code>, <code>Figure5D_subject_specificity_separation.png</code>, <code>figure5_stats_ready.csv</code>, <code>figure5_inferential_tests.csv</code></dd>
+    </div>
+    <p>The "TM" conditions use genuine, independently-run Standard Template Matching data (<code>ExpMethod-TM</code> source files) — confirmed to reproduce every reported Figure 5 quantity in the current manuscript exactly, including the Holm-corrected family of 4 tests (Methods: "Holm–Bonferroni correction applied across the four comparisons"). An earlier version of this package used a different source file (PCM confidence maps at threshold=0, standing in for TM) that matched an older draft of the manuscript but not the current one — that's fixed; see the Validation section below for the exact numbers checked.</p>
+  </div>
+
+  <div class="fig-card">
+    <h3>Other reported statistics</h3>
+    <p><strong>Thresholding-gain-by-duration</strong> (main text): is the PPV gain from thresholding (Thr 0.99 − Thr 0) larger at 5 minutes than at 70 minutes? Paired t-test across subjects.</p>
+    <div class="kv">
+      <dt>Script</dt><dd><code>code/other_stats_threshold_gain.py</code></dd>
+      <dt>Output</dt><dd><code>outputs/other_stats/threshold_gain_by_duration.csv</code></dd>
+    </div>
+    <p><strong>Supplementary Figure 3</strong> (whole-map NMI within/between-subject reliability, TM vs. PCM@0.99, 5 vs. 70 min):</p>
+    <div class="kv">
+      <dt>Script</dt><dd><code>code/other_stats_suppfig3_nmi.py</code></dd>
+      <dt>Data</dt><dd><code>data/suppfig3_nmi/standardTM_within_between_stats.csv</code> (genuine Template Matching side) and <code>data/suppfig3_nmi/pcm_thr0.99_matched_duration_pairs.csv</code> (PCM side, all 4×4 subject-pair comparisons at matched duration — within-subject vs. between-subject NMI is computed directly from these)</dd>
+      <dt>Output</dt><dd><code>outputs/other_stats/suppfig3_nmi_within_between.csv</code></dd>
+    </div>
+    <p>Unlike every other figure in this package, Supp Fig 3 compares two <em>independent halves</em> of data of the <em>same</em> duration (Half 1 vs. Half 2, both 5min or both 70min) rather than exploratory-data-vs-fixed-70min-reference — see Supplemental Materials p.6–7. One thing worth knowing about the TM side specifically: Standard Template Matching has no PCM confidence threshold, so it isn't part of the usual threshold sweep — its per-subject raw comparisons weren't available, only its already-computed within/between summary statistics, which are used directly rather than recomputed from scratch.</p>
+  </div>
+</section>
+
+<footer>
+  Built as a reproducibility companion to the PCM manuscript. Original analysis code and raw pipeline outputs live outside this package in the parent project's <code>analyses/</code> folder.
+</footer>
+
+</div>
+</body>
+</html>
